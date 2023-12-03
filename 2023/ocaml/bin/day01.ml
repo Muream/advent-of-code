@@ -1,22 +1,24 @@
 open Core
 
-let is_digit c =
-  match c with
-  | '0' .. '9' -> true
-  | _ -> false
-;;
+let pattern = Re2.create_exn "(one|two|three|four|five|six|seven|eight|nine)"
 
-let () =
-  let lines = In_channel.read_lines "input/day01-01.txt" in
+let part1 lines =
   let numbers =
     List.map lines ~f:(fun line ->
       let chars = String.to_list line in
-      let numbers = List.filter chars ~f:is_digit in
+      let numbers = List.filter chars ~f:Char.is_digit in
       let number =
         String.of_char (List.hd_exn numbers) ^ String.of_char (List.last_exn numbers)
       in
       Int.of_string number)
   in
   let total = List.reduce_exn numbers ~f:( + ) in
-  Printf.printf "Result: %i\n" total
+  total
+;;
+
+let () =
+  let part1_res_test = part1 (In_channel.read_lines "../input/day01-01-test.txt") in
+  Printf.printf "Day 01 - Part 01 - test: %i\n" part1_res_test;
+  let part1_res = part1 (In_channel.read_lines "../input/day01-01.txt") in
+  Printf.printf "Day 01 - Part 01: %i\n" part1_res
 ;;
