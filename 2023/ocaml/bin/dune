@@ -1,4 +1,4 @@
 (executable
  (public_name day01)
  (name day01)
- (libraries advent core re2))
+ (libraries advent core))
